@@ -28,7 +28,7 @@ cy2 = cy1
 
 f1 = 10.0
 f2 = 5.0
-lamb = -0.0
+lamb = -0.1
 
 # cam[0, 2] = cx  # define center x
 # cam[1, 2] = cy  # define center y
@@ -86,6 +86,9 @@ else:
     #         else:
     #             uv[i, j][1] = 0
 
+    max_x = np.max(XYZ[:, 0])
+    max_y = np.max(XYZ[:, 1])
+
     for i in range(XYZ.shape[0]):
         for j in range(XYZ.shape[1]):
             # x = (XYZ[i, j][0] * f1 - cx1) / f1
@@ -100,8 +103,8 @@ else:
             # uv[i, j][1] = (XYZ[i, j][1] * f1 + cy1) * (1 - lamb * ((XYZ[i, j][0] / 30.6)  2 + (XYZ[i, j][1] / 30.6)  2))
             # yd = XYZ[i, j][1] * (1 - lamb * r2 ** 2 + lamb * r2 ** 4)
 
-            x = (XYZ[i, j][0]) * (1 + lamb * ((XYZ[i, j][0] / 32.0) ** 2 + (XYZ[i, j][1] / 32.0) ** 2))
-            y = (XYZ[i, j][1]) * (1 + lamb * ((XYZ[i, j][0] / 32.0) ** 2 + (XYZ[i, j][1] / 32.0) ** 2))
+            x = (XYZ[i, j][0]) * (1 + lamb * ((XYZ[i, j][0] / max_x) ** 2 + (XYZ[i, j][1] / max_y) ** 2))
+            y = (XYZ[i, j][1]) * (1 + lamb * ((XYZ[i, j][0] / max_x) ** 2 + (XYZ[i, j][1] / max_y) ** 2))
 
             x = (x * f2 + cx2)
             y = (y * f2 + cy2)
